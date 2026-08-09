@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Downloader &amp; Rec - Descarga videos y audio en segundos</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #171a23;
+    --card: #1c2030;
+    --border: #2a2f42;
+    --text: #e8eaf2;
+    --muted: #9aa1b5;
+    --accent: #4f9d69;
+    --accent2: #3c7a4f;
+    --blue: #2d5a8e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #232a3d 0%, var(--bg) 55%) fixed;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+  .logo-mark {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), var(--blue));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 17px;
+  }
+  .nav-links a { color: var(--muted); text-decoration: none; margin-left: 22px; font-size: 14px; }
+  .nav-links a:hover { color: var(--text); }
+  header { text-align: center; padding: 60px 0 40px; }
+  h1 { font-size: 44px; letter-spacing: -0.5px; margin-bottom: 12px; }
+  h1 span { color: var(--accent); }
+  .sub { color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 auto 30px; }
+  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 14px 30px; border-radius: 10px;
+    font-size: 16px; font-weight: 600; text-decoration: none;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 24px rgba(79,157,105,.35); }
+  .btn-primary:hover { box-shadow: 0 10px 30px rgba(79,157,105,.5); }
+  .btn-ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+  .badge {
+    display: inline-block; background: rgba(79,157,105,.15); color: var(--accent);
+    border: 1px solid rgba(79,157,105,.35); border-radius: 20px;
+    padding: 4px 14px; font-size: 13px; margin-bottom: 18px;
+  }
+  .features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px; padding: 20px 0 50px;
+  }
+  .feat {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px;
+  }
+  .feat h3 { font-size: 16px; margin-bottom: 8px; color: var(--accent); }
+  .feat p { color: var(--muted); font-size: 14px; }
+  .buy {
+    background: linear-gradient(180deg, var(--bg2), var(--card));
+    border: 1px solid var(--border); border-radius: 18px;
+    padding: 40px 30px; margin-bottom: 50px; text-align: center;
+  }
+  .price { font-size: 46px; font-weight: 800; }
+  .price small { font-size: 16px; color: var(--muted); font-weight: 400; }
+  .price-row { display: flex; justify-content: center; gap: 8px; align-items: baseline; margin: 8px 0 4px; }
+  .buy-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+  .buy-form input {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    border-radius: 10px; padding: 13px 16px; font-size: 15px; width: 280px; outline: none;
+  }
+  .buy-form input:focus { border-color: var(--accent); }
+  .buy-note { color: var(--muted); font-size: 13px; margin-top: 12px; }
+  #buy-status { margin-top: 14px; font-size: 14px; min-height: 20px; }
+  .ok { color: var(--accent); }
+  .err { color: #e06565; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 50px; }
+  .step { text-align: center; padding: 20px 14px; }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 12px;
+    background: linear-gradient(135deg, var(--accent), var(--blue));
+    display: flex; align-items: center; justify-content: center; font-weight: 700;
+  }
+  .step h4 { font-size: 15px; margin-bottom: 6px; }
+  .step p { color: var(--muted); font-size: 13px; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 30px 0 40px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo"><div class="logo-mark">S</div> Super Downloader</div>
+    <div class="nav-links">
+      <a href="#features">Funciones</a>
+      <a href="#buy">Comprar</a>
+      <a href="#steps">Cómo funciona</a>
+    </div>
+  </nav>
+
+  <header>
+    <span class="badge">Licencia por 1 año - Uso personal</span>
+    <h1>Descargá videos y audio<br>con un <span>solo clic</span></h1>
+    <p class="sub">Super Downloader &amp; Rec descarga videos de YouTube, redes sociales y más, en máxima calidad. También graba tu pantalla con un solo botón.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="/download">Descargar gratis</a>
+      <a class="btn btn-ghost" href="#buy">Comprar licencia</a>
+    </div>
+  </header>
+
+  <section id="features" class="features">
+    <div class="feat"><h3>Descarga en segundos</h3><p>Pegá el link y descargá videos o solo el audio en máxima calidad, sin esperas.</p></div>
+    <div class="feat"><h3>Redes y más</h3><p>Compatible con YouTube, TikTok, Instagram, X (Twitter) y miles de sitios más.</p></div>
+    <div class="feat"><h3>Grabador de pantalla</h3><p>Grabá tu pantalla con audio incorporado y guardá tus sesiones sin complicaciones.</p></div>
+    <div class="feat"><h3>Historial integrado</h3><p>Tus descargas organizadas con tamaño, fecha y acceso rápido a la carpeta.</p></div>
+    <div class="feat"><h3>Bandeja de sistema</h3><p>La app sigue descargando en segundo plano aunque cierres la ventana.</p></div>
+    <div class="feat"><h3>100% Windows</h3><p>Nativa para Windows 10 y 11. Rápida, liviana y sin publicidad.</p></div>
+  </section>
+
+  <section id="buy" class="buy">
+    <span class="badge">Pago seguro con MercadoPago</span>
+    <h2 style="font-size:28px; margin-bottom:6px;">Licencia por 1 año</h2>
+    <div class="price-row"><div class="price">$10</div><small>USD - pago único</small></div>
+    <p class="buy-note">Comprá online y recibí tu código de activación por email al instante.</p>
+    <form class="buy-form" id="buy-form">
+      <input type="email" id="buy-email" placeholder="Tu email (te llega el código)" required>
+      <button type="submit" class="btn btn-primary">Comprar ahora</button>
+    </form>
+    <div id="buy-status"></div>
+  </section>
+
+  <section id="steps" class="steps">
+    <div class="step"><div class="step-num">1</div><h4>Descargá la app</h4><p>Instalá Super Downloader en tu PC con Windows.</p></div>
+    <div class="step"><div class="step-num">2</div><h4>Activá tu licencia</h4><p>En Configuración elegí "Activar licencia" e ingresá tu email.</p></div>
+    <div class="step"><div class="step-num">3</div><h4>Usalo sin límites</h4><p>Descargá todo lo que quieras durante un año entero.</p></div>
+  </section>
+
+  <footer>
+    Super Downloader &amp; Rec - Licencia de uso personal, 1 año<br>
+    Pago procesado por MercadoPago. Los códigos se envían automáticamente por email.
+  </footer>
+</div>
+
+<script>
+  const form = document.getElementById('buy-form');
+  const status = document.getElementById('buy-status');
+  const email = document.getElementById('buy-email');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const addr = email.value.trim();
+    if (!addr || !addr.includes('@')) {
+      status.className = 'err'; status.textContent = 'Ingresá un email válido.';
+      return;
+    }
+    status.className = ''; status.textContent = 'Creando tu pago...';
+    try {
+      const res = await fetch('https://license-server-0vbo.onrender.com/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: addr })
+      });
+      const data = await res.json();
+      if (data.success && data.payment_url) {
+        status.className = 'ok';
+        status.textContent = 'Abriendo MercadoPago...';
+        window.open(data.payment_url, '_blank');
+      } else {
+        status.className = 'err';
+        status.textContent = 'No se pudo crear el pago. Intentalo de nuevo en unos minutos.';
+      }
+    } catch (err) {
+      status.className = 'err';
+      status.textContent = 'Error de conexión. Intentalo de nuevo.';
+    }
+  });
+</script>
+</body>
+</html>
