@@ -50,6 +50,8 @@
   .btn:hover { transform: translateY(-2px); }
   .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 24px rgba(79,157,105,.35); }
   .btn-primary:hover { box-shadow: 0 10px 30px rgba(79,157,105,.5); }
+  .btn-paypal { background: #ffc439; color: #111; }
+  .btn-paypal:hover { background: #f2ba36; }
   .btn-ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); }
   .badge {
     display: inline-block; background: rgba(79,157,105,.15); color: var(--accent);
@@ -138,13 +140,14 @@
   </section>
 
   <section id="buy" class="buy">
-    <span class="badge">Pago seguro con MercadoPago</span>
+    <span class="badge">Pago seguro con MercadoPago o PayPal</span>
     <h2 style="font-size:28px; margin-bottom:6px;">Licencia por 1 año</h2>
     <div class="price-row"><div class="price">$10</div><small>USD - pago único</small></div>
     <p class="buy-note">Comprá online y recibí tu código de activación por email al instante.</p>
     <form class="buy-form" id="buy-form">
       <input type="email" id="buy-email" placeholder="Tu email (te llega el código)" required>
-      <button type="submit" class="btn btn-primary">Comprar ahora</button>
+      <button type="submit" class="btn btn-primary" data-via="mp">Pagar con MercadoPago</button>
+      <button type="submit" class="btn btn-paypal" data-via="paypal">Pagar con PayPal</button>
     </form>
     <div id="buy-status"></div>
   </section>
@@ -157,7 +160,7 @@
 
   <footer>
     Super Downloader &amp; Rec - Licencia de uso personal, 1 año<br>
-    Pago procesado por MercadoPago. Los códigos se envían automáticamente por email.
+    Pago procesado por MercadoPago o PayPal. Los códigos se envían automáticamente por email.
   </footer>
 </div>
 
@@ -173,9 +176,11 @@
       status.className = 'err'; status.textContent = 'Ingresá un email válido.';
       return;
     }
+    const paypal = e.submitter && e.submitter.dataset.via === 'paypal';
+    const name = paypal ? 'PayPal' : 'MercadoPago';
     status.className = ''; status.textContent = 'Creando tu pago...';
     try {
-      const res = await fetch('https://license-server-0vbo.onrender.com/api/create-checkout', {
+      const res = await fetch('https://license-server-0vbo.onrender.com' + (paypal ? '/api/paypal/create-order' : '/api/create-checkout'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: addr })
@@ -183,11 +188,11 @@
       const data = await res.json();
       if (data.success && data.payment_url) {
         status.className = 'ok';
-        status.textContent = 'Abriendo MercadoPago...';
+        status.textContent = 'Abriendo ' + name + '...';
         window.location.href = data.payment_url;
       } else {
         status.className = 'err';
-        status.textContent = 'No se pudo crear el pago. Intentalo de nuevo en unos minutos.';
+        status.textContent = 'No se pudo crear el pago con ' + name + '. Probá con ' + (paypal ? 'MercadoPago' : 'PayPal') + ' o intentalo en unos minutos.';
       }
     } catch (err) {
       status.className = 'err';
